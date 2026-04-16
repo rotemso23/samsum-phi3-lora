@@ -278,7 +278,7 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
     tokenizer.padding_side = "right"  # required for training
 
-    print("Loading SAMSum dataset ...")
+    print(f"Loading dataset: {DATASET_NAME} ...")
     raw = load_dataset(DATASET_NAME)
     print("\nSplit sizes:")
     print(f"  train:      {len(raw['train']):>6,}")
