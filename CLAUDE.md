@@ -59,6 +59,7 @@ dialogue-summarizer/
 
 - Load via: `datasets.load_dataset("knkarthick/dialogsum")`
 - ~14,460 examples total: pre-split into train (12,460) / validation (500) / test (1,500)
+- **Train split subsampled to 4,000 examples** (random, seed=42) to fit within a free Colab T4 session. Val and test splits are used in full.
 - Each example has: `dialogue` (multi-turn conversation) and `summary` (one short paragraph)
 - Conversations are messenger-style: informal language, abbreviations, emojis — realistic and varied
 - No custom splitting needed — use the dataset's built-in splits
@@ -164,7 +165,7 @@ For training, the loss should only be computed on the assistant turn (the summar
 ## Compute notes
 
 - This project requires a GPU. Use Google Colab (free T4) for training.
-- Training Phase 3 on a T4 with the above settings: approximately 1–2 hours for 3 epochs on 12k examples. Run overnight or use Colab Pro if needed.
+- Training Phase 3 on a T4 with the above settings: approximately 1–2 hours for 3 epochs on 4k examples (subsampled). Run overnight or use Colab Pro if needed.
 - If T4 OOMs: reduce `per_device_train_batch_size` to 2 and increase `gradient_accumulation_steps` to 8.
 - Alternatively, use `microsoft/phi-2` (2.7B) — slightly older, but fits more comfortably on T4 and trains faster.
 - Do NOT try to run training on CPU — it will take many hours.
