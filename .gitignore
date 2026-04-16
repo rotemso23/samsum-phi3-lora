@@ -1,0 +1,28 @@
+# MLflow experiment artifacts
+mlflow_runs/
+
+# Environment secrets
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Package build artifacts
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model checkpoints (large — push to Hub instead)
+checkpoints/
+outputs/
+
+# OS
+.DS_Store
+Thumbs.db
