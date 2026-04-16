@@ -24,7 +24,7 @@ HUB_REPO = "rotemso23/dialogsum-phi3-lora"
 LORA_R = 16
 LORA_ALPHA = 32
 LORA_DROPOUT = 0.05
-LORA_TARGET_MODULES = ["q_proj", "v_proj"]
+LORA_TARGET_MODULES = ["qkv_proj", "o_proj"]
 
 
 # ---------------------------------------------------------------------------
