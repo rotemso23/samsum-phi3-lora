@@ -191,6 +191,11 @@ def prepare_datasets(
     """
     raw: DatasetDict = load_dataset(dataset_name)
 
+    # Subsample train split to reduce training time on free Colab T4.
+    # Val and test splits are kept in full for accurate evaluation.
+    train_size = min(4000, len(raw["train"]))
+    raw["train"] = raw["train"].shuffle(seed=42).select(range(train_size))
+
     _map_fn = functools.partial(
         tokenize_and_mask,
         tokenizer=tokenizer,
