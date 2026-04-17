@@ -28,7 +28,8 @@ def _load() -> tuple:
     """
     Load the tokenizer and fine-tuned model if not already cached.
 
-    Loads Phi-3-mini in 4-bit quantization and applies the LoRA adapter from Hub.
+    Loads Phi-3-mini and applies the LoRA adapter from Hub.
+    Uses 4-bit quantization on GPU, float16 on CPU.
     Results are stored in module-level globals so subsequent calls are instant.
 
     Returns:
@@ -44,19 +45,28 @@ def _load() -> tuple:
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_use_double_quant=True,
-    )
-    base = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID,
-        quantization_config=bnb_config,
-        device_map="auto",
-        trust_remote_code=False,
-        dtype=torch.float16,
-    )
+    if torch.cuda.is_available():
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=True,
+        )
+        base = AutoModelForCausalLM.from_pretrained(
+            MODEL_ID,
+            quantization_config=bnb_config,
+            device_map="auto",
+            trust_remote_code=False,
+            dtype=torch.float16,
+        )
+    else:
+        # CPU fallback (HF Spaces free tier) — no quantization, float16
+        base = AutoModelForCausalLM.from_pretrained(
+            MODEL_ID,
+            torch_dtype=torch.float16,
+            device_map="cpu",
+            trust_remote_code=False,
+        )
     model = PeftModel.from_pretrained(base, HUB_REPO)
     model.eval()
 
