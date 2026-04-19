@@ -13,7 +13,7 @@ rouge-score==0.1.2
 # Install manually in Colab/Kaggle: pip install mlflow==2.13.0
 
 # Demo UI
-gradio>=5.0.0
+gradio>=5.9.1
 audioop-lts  # backport of audioop for Python 3.13 (removed from stdlib, needed by pydub)
 
 # Utilities
