@@ -39,7 +39,8 @@ demo = gr.Interface(
     title="Dialogue Summarizer",
     description=(
         "Fine-tuned Phi-3-mini with LoRA on DialogSum. "
-        "Paste any messenger-style conversation and get a concise summary."
+        "Paste any messenger-style conversation and get a concise summary.\n\n"
+        "⚠️ Running on CPU (free tier) — inference takes ~60 seconds. Please be patient."
     ),
     flagging_mode="never",
 )
