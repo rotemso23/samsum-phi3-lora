@@ -4,6 +4,9 @@ mlflow_runs/
 # Environment secrets
 .env
 
+# Private project notes (personal context, not for public repo)
+CLAUDE.private.md
+
 # Python cache
 __pycache__/
 *.pyc
