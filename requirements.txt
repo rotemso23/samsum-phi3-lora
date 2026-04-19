@@ -14,7 +14,7 @@ rouge-score==0.1.2
 
 # Demo UI
 gradio>=5.0.0
-pyaudioop  # pydub compatibility shim for Python 3.13 (audioop was removed)
+audioop-lts  # backport of audioop for Python 3.13 (removed from stdlib, needed by pydub)
 
 # Utilities
 python-dotenv==1.0.1
