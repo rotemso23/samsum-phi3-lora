@@ -143,11 +143,16 @@ For training, the loss should only be computed on the assistant turn (the summar
 - Keep it simple — this is a demo, not a product
 
 ### Phase 7: Deployment (HuggingFace Spaces)
-- Create a new Space: Gradio SDK
-- Add `HF_TOKEN` as a Space secret
+- Create a new Space: Gradio SDK, Blank template, Public visibility
+- Push code via git: add HF Space as a remote and run `git push space master:main`
+  - Remote URL: `https://<username>:<HF_TOKEN>@huggingface.co/spaces/<username>/<space-name>`
 - The model loads from Hub — no model weights committed to the Space repo
-- `requirements.txt` must pin versions to ensure reproducibility
-- First load will be slow (model download) — acceptable for a demo Space
+- `HF_TOKEN` Space secret is NOT needed if the model repo is public
+- HF Spaces runs Python 3.13 — requires `audioop-lts` in requirements.txt (pydub compatibility shim)
+- `mlflow` conflicts with `datasets>=4.x` (pyarrow version clash) — keep mlflow commented out in requirements.txt; install manually in Colab/Kaggle notebooks only
+- Free tier Space runs on CPU — inference will be very slow (minutes per request); acceptable for a portfolio demo
+- `gradio>=5.9.1` required for Python 3.13 compatibility; use `flagging_mode="never"` (not `allow_flagging`)
+- To update the Space after code changes: `git push space master:main`
 
 ### Phase 8: README + GitHub
 - README must include: what it does, the task, the dataset, tech stack, training setup, ROUGE results table (baseline vs. fine-tuned), 2–3 qualitative examples, how to run locally, link to live demo, link to model on Hub
@@ -161,7 +166,7 @@ For training, the loss should only be computed on the assistant turn (the summar
 - Type hints on all functions
 - Each module has an `if __name__ == "__main__"` block for standalone testing
 - Git commit after each phase is complete
-- Use `transformers>=4.40` — Phi-3 support was added in 4.40
+- Use `transformers>=4.40,<5.0` — Phi-3 support was added in 4.40; transformers 5.x has breaking API changes (device_map requires newer accelerate, torch_dtype renamed to dtype)
 
 ## Compute notes
 
